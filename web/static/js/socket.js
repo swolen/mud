@@ -72,6 +72,10 @@ channel.on("new_msg", payload => {
   $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
 })
 
+priv.on("whisper", payload => {
+  $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
+})
+
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
