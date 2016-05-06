@@ -2,7 +2,7 @@ defmodule Swolen.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Swolen.RoomChannel
+  channel "rooms:*", Swolen.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
