@@ -68,7 +68,7 @@ $chatInput.on("keypress", event => {
 })
 
 channel.on("new_msg", payload => {
-  $messagesContainer.append(`<br/>[${Date()}] ${payload.from}: ${payload.body}`)
+  $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
 })
 
 channel.join()
