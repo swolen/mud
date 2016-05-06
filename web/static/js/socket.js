@@ -55,6 +55,7 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("rooms:juice_bar", {})
+let priv = socket.channel(`private:${window.username}`, {})
 let $chatInput = $("#chat-input")
 let $messagesContainer = $("#messages")
 let enterKeyCode = 13
@@ -72,6 +73,10 @@ channel.on("new_msg", payload => {
 })
 
 channel.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+priv.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
