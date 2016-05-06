@@ -3,8 +3,12 @@ defmodule Swolen.UserState do
     Agent.start_link(fn -> %{} end, name: __MODULE__)
   end
 
+  def all do
+    Agent.get(__MODULE__, &(&1))
+  end
+
   def get(username) do
-    Agent.get(__MODULE__, fn map -> map[username] end)
+    all[username]
   end
 
   def set(username, new_state) do
