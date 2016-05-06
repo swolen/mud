@@ -5,7 +5,7 @@
 // and connect at the socket path in "lib/my_app/endpoint.ex":
 import {Socket} from "phoenix"
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket("/socket", {params: {name: `joebob ${Math.random()}`}})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -68,10 +68,10 @@ $chatInput.on("keypress", event => {
 })
 
 channel.on("new_msg", payload => {
-  $messagesContainer.append(`<br/>[${Date()}] ${payload.body}`)
+  $messagesContainer.append(`<br/>[${Date()}] ${payload.from}: ${payload.body}`)
 })
 
-channel.join({params: {yo: "dawg"}})
+channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
