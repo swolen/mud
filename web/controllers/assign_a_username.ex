@@ -5,7 +5,7 @@ defmodule Swolen.UserNameAssigner do
   end
 
   def call(conn, opts) do
-    username = conn.params["username"]
+    username = conn.params["username"] || Faker.Name.name
     conn = Plug.Conn.assign(conn, :username, username)
   end
 
