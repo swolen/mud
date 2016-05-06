@@ -12,7 +12,9 @@ defmodule Swolen.RoomChannel do
   end
 
   def handle_in("new_msg", %{"body" => "/don " <> item}, socket) do
-    message = "#{socket.assigns.username} has donned a(n) #{item}"
+    username = socket.assigns.username
+    message = "#{username} has donned a(n) #{item}"
+    Swolen.UserState.set(username, item)
     broadcast!(socket, "new_msg", %{body: message, from: "🌎"})
   end
 
