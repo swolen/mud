@@ -17,5 +17,4 @@ defmodule Swolen.RoomChannel do
     broadcast!(socket, "new_msg", %{body: body, from: socket.assigns.username})
     {:noreply, socket}
   end
-
-end 
+end
