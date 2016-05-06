@@ -2,7 +2,7 @@ defmodule Swolen.RoomChannel do
   use Phoenix.Channel
 
   # Allow anyone to join this room
-  def join("rooms:juice_bar", message, socket) do
+  def join("rooms:juice_bar", _message, socket) do
     {:ok, socket}
   end
 
