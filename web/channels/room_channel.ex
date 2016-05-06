@@ -16,6 +16,7 @@ defmodule Swolen.RoomChannel do
     message = "#{username} has donned a(n) #{item}"
     Swolen.UserState.set(username, item)
     broadcast!(socket, "new_msg", %{body: message, from: "🌎"})
+    {:noreply, socket}
   end
 
   # Incoming messages from clients
