@@ -3,6 +3,9 @@ defmodule Swolen.RoomChannel do
 
   # Allow anyone to join this room
   def join("rooms:juice_bar", _message, socket) do
+    # IO.inspect ["message is", message]
+    # socket = assign(socket, :user, msg["username"])
+    socket = assign(socket, :user, :rand.uniform())
     {:ok, socket}
   end
 

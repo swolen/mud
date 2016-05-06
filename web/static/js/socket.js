@@ -71,7 +71,7 @@ channel.on("new_msg", payload => {
   $messagesContainer.append(`<br/>[${Date()}] ${payload.body}`)
 })
 
-channel.join()
+channel.join({params: {yo: "dawg"}})
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
