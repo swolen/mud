@@ -20,7 +20,7 @@ defmodule Swolen.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket) do
-    socket = assign(socket, :name, params["name"])
+    socket = assign(socket, :username, params["username"])
     {:ok, socket}
   end
 
