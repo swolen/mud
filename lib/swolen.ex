@@ -13,6 +13,7 @@ defmodule Swolen do
       supervisor(Swolen.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Swolen.Worker, [arg1, arg2, arg3]),
+      worker(Swolen.UserState, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

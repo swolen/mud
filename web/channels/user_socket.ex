@@ -3,6 +3,7 @@ defmodule Swolen.UserSocket do
 
   ## Channels
   channel "rooms:*", Swolen.RoomChannel
+  channel "private:*", Swolen.PrivateChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000

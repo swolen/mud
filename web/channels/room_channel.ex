@@ -2,7 +2,7 @@ defmodule Swolen.RoomChannel do
   use Phoenix.Channel
 
   # Allow anyone to join this room
-  def join("rooms:juice_bar", message, socket) do
+  def join("rooms:juice_bar", _message, socket) do
     {:ok, socket}
   end
 
@@ -12,8 +12,21 @@ defmodule Swolen.RoomChannel do
   end
 
   def handle_in("new_msg", %{"body" => "/don " <> item}, socket) do
-    message = "#{socket.assigns.username} has donned a(n) #{item}"
+    username = socket.assigns.username
+    message = "#{username} has donned a(n) #{item}"
+    Swolen.UserState.set(username, item)
     broadcast!(socket, "new_msg", %{body: message, from: "🌎"})
+    {:noreply, socket}
+  end
+
+  def handle_in("new_msg", %{"body" => "/look_around"}, socket) do
+    Enum.each Swolen.UserState.all, fn {user, item} ->
+      message = "#{user} is looking swole in #{item}"
+      Swolen.Endpoint.broadcast!("private:#{socket.assigns.username}", "whisper", %{from: "😗", body: message})
+    end
+
+    # 🤔 Would we want to :reply here instead of using a private channel?
+    {:noreply, socket}
   end
 
   # Incoming messages from clients
