@@ -55,7 +55,6 @@ socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
 let channel = socket.channel("rooms:juice_bar", {})
-let priv = socket.channel(`private:${window.username}`, {})
 let $chatInput = $("#chat-input")
 let $messagesContainer = $("#messages")
 let enterKeyCode = 13
@@ -72,15 +71,18 @@ channel.on("new_msg", payload => {
   $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
 })
 
-priv.on("whisper", payload => {
-  $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
+// Really broad event - captures more than we want
+channel.on("phx_reply", payload => {
+  let response = payload.response
+  // Hacky way to narrow down to the replies we're interested in
+  if(payload.status === "ok" && response && response.kind === "private" && Array.isArray(response.messages)) {
+    response.messages.forEach(message => {
+      $messagesContainer.prepend(`<li>[${Date()}] ${response.from}: ${message}</li>`)
+    })
+  }
 })
 
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-priv.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
