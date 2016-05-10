@@ -1,6 +1,8 @@
 defmodule Swolen.RoomChannel do
   use Phoenix.Channel
 
+  alias Swolen.Commands.Dispatch, as: CommandDispatch
+
   # Allow anyone to join this room
   def join("rooms:juice_bar", _message, socket) do
     {:ok, socket}
@@ -11,20 +13,14 @@ defmodule Swolen.RoomChannel do
     {:error, %{reason: "unauthorized"}}
   end
 
-  def handle_in("new_msg", %{"body" => "/don " <> item}, socket) do
-    username = socket.assigns.username
-    message = "#{username} has donned a(n) #{item}"
-    Swolen.UserState.set(username, item)
-    broadcast!(socket, "new_msg", %{body: message, from: "🌎"})
-    {:noreply, socket}
-  end
-
-  def handle_in("new_msg", %{"body" => "/look_around"}, socket) do
-    messages = Enum.map(Swolen.UserState.all, fn {user, item} ->
-      "#{user} is looking swole in #{item}"
-    end)
-
-    {:reply, {:ok, %{from: "😗", messages: messages}}, socket}
+  def handle_in("new_msg", %{"body" => "/" <> command}, socket) do
+    case CommandDispatch.handle(command, socket.assigns.username) do
+      {:reply, messages} ->
+        {:reply, {:ok, %{from: "😗", messages: List.wrap(messages)}}, socket}
+      {:broadcast, message} ->
+        broadcast!(socket, "new_msg", %{from: "🌎", body: message})
+        {:noreply, socket}
+    end
   end
 
   # Incoming messages from clients
