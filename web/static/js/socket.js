@@ -8,14 +8,10 @@ let channel = socket.channel("rooms:juice_bar", {})
 let chat = new Chat("#chat-input", "#messages")
 
 chat.onSubmit( () => {
-  channel.push(
-    "new_msg", {body: chat.getInput()}
-  ).receive(
-    "ok", (response) =>
-      response.messages.forEach(body => {
-        chat.addMessage(response.from, body)
-      })
-  )
+  channel.push("new_msg", { body: chat.getInput() })
+    .receive("ok", response => {
+      response.messages.forEach(body => chat.addMessage(response.from, body))
+    })
 })
 
 channel.on("new_msg", payload => chat.addMessage(payload.from, payload.body))
