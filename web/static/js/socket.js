@@ -1,34 +1,25 @@
 import {Socket} from "phoenix"
+import {Chat} from "./chat"
 
 let socket = new Socket("/socket", {params: {username: window.username}})
 socket.connect()
 
 let channel = socket.channel("rooms:juice_bar", {})
-let $chatInput = $("#chat-input")
-let $messagesContainer = $("#messages")
-let enterKeyCode = 13
-let displayMessage = function (message) {
-  $messagesContainer.prepend(`<li>[${Date()}] ${message.from}: ${message.body}</li>`)
-}
+let chat = new Chat("#chat-input", "#messages")
 
-// When user presses enter, send their chat message, watch for a response from
-// the server, and clear the input
-$chatInput.on("keypress", event => {
-  if(event.keyCode === enterKeyCode) {
-    channel.push(
-      "new_msg", {body: $chatInput.val()}
-    ).receive(
-      "ok", (response) =>
-        response.messages.forEach(body => {
-        displayMessage({from: response.from, body: body})
-        })
-    )
-    $chatInput.val("")
-  }
+chat.onSubmit( () => {
+  channel.push(
+    "new_msg", {body: chat.getInput()}
+  ).receive(
+    "ok", (response) =>
+      response.messages.forEach(body => {
+        chat.addMessage(response.from, body)
+      })
+  )
 })
 
 channel.on("new_msg", payload => {
-  displayMessage(payload)
+  chat.addMessage(payload.from, payload.body)
 })
 
 channel.join()
