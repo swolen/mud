@@ -20,13 +20,11 @@ defmodule Swolen.RoomChannel do
   end
 
   def handle_in("new_msg", %{"body" => "/look_around"}, socket) do
-    Enum.each Swolen.UserState.all, fn {user, item} ->
-      message = "#{user} is looking swole in #{item}"
-      Swolen.Endpoint.broadcast!("private:#{socket.assigns.username}", "whisper", %{from: "😗", body: message})
-    end
+    messages = Enum.map(Swolen.UserState.all, fn {user, item} ->
+      "#{user} is looking swole in #{item}"
+    end)
 
-    # 🤔 Would we want to :reply here instead of using a private channel?
-    {:noreply, socket}
+    {:reply, {:ok, %{from: "😗", messages: messages}}, socket}
   end
 
   # Incoming messages from clients
