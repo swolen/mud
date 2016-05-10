@@ -29,6 +29,20 @@ defmodule Swolen.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("new_msg", %{"body" => "help " <> topic}, socket) do
+    body = ~s(Cannot help with "#{topic}".)
+    {:reply, {:ok, %{body: body}}, socket}
+  end
+
+  def handle_in("new_msg", %{"body" => "help"}, socket) do
+    body = """
+    help [topic or command]
+    - chat
+    - commands
+    """
+    {:reply, {:ok, %{body: body}}, socket}
+  end
+
   # Incoming messages from clients
   def handle_in("new_msg", %{"body" => body}, socket) do
     # "broadcast!/3 will notify all joined clients on this socket's topic and invoke their handle_out/3 callbacks."

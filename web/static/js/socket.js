@@ -13,6 +13,7 @@ let enterKeyCode = 13
 $chatInput.on("keypress", event => {
   if(event.keyCode === enterKeyCode) {
     channel.push("new_msg", {body: $chatInput.val()})
+      .receive("ok", (resp) => $messagesContainer.prepend(`${resp.body}\n`))
     $chatInput.val("")
   }
 })
