@@ -24,7 +24,7 @@ defmodule Swolen.RoomChannel do
       "#{user} is looking swole in #{item}"
     end)
 
-    {:reply, {:ok, %{kind: "private", from: "😗", messages: messages}}, socket}
+    {:reply, {:ok, %{from: "😗", messages: messages}}, socket}
   end
 
   # Incoming messages from clients

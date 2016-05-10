@@ -62,27 +62,24 @@ let displayMessage = function (message) {
   $messagesContainer.prepend(`<li>[${Date()}] ${message.from}: ${message.body}</li>`)
 }
 
-// When user presses enter, send their chat message and clear the input
+// When user presses enter, send their chat message, watch for a response from
+// the server, and clear the input
 $chatInput.on("keypress", event => {
   if(event.keyCode === enterKeyCode) {
-    channel.push("new_msg", {body: $chatInput.val()})
+    channel.push(
+      "new_msg", {body: $chatInput.val()}
+    ).receive(
+      "ok", (response) =>
+        response.messages.forEach(body => {
+        displayMessage({from: response.from, body: body})
+        })
+    )
     $chatInput.val("")
   }
 })
 
 channel.on("new_msg", payload => {
   displayMessage(payload)
-})
-
-// Really broad event - captures more than we want
-channel.on("phx_reply", payload => {
-  let response = payload.response
-  // Hacky way to narrow down to the replies we're interested in
-  if(payload.status === "ok" && response && response.kind === "private" && Array.isArray(response.messages)) {
-    response.messages.forEach(body => {
-      displayMessage({from: response.from, body: body})
-    })
-  }
 })
 
 channel.join()
