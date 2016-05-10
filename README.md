@@ -20,3 +20,25 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Docs: http://hexdocs.pm/phoenix
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
+
+## Gameplay
+
+```
+> help
+help [topic or command]
+- chat
+- commands
+> help chat
+There is global and area chat. Global chat is prefixed by "!" and is received
+by everyone online. Area chat is prefixed by "." and is received by only those
+around you.
+> help commands
+Commands:
+- don [literally anything]
+- look around
+> help don
+don [literally anything]
+You wear a thing a look swole.
+> help look around
+You observe your surroundings.
+```
