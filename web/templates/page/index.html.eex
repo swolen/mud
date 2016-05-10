@@ -1,4 +1,2 @@
 <input id="chat-input" type="text" class="form-control"></input>
-<div class="well">
-  <ul id="messages" class="list-unstyled"></ul>
-</div>
+<pre id="messages"></pre>

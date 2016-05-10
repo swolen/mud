@@ -18,11 +18,11 @@ $chatInput.on("keypress", event => {
 })
 
 channel.on("new_msg", payload => {
-  $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
+  $messagesContainer.prepend(`[${Date()}] ${payload.from}: ${payload.body}\n`)
 })
 
 priv.on("whisper", payload => {
-  $messagesContainer.prepend(`<li>[${Date()}] ${payload.from}: ${payload.body}</li>`)
+  $messagesContainer.prepend(`[${Date()}] ${payload.from}: ${payload.body}\n`)
 })
 
 channel.join()
