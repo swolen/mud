@@ -7,7 +7,7 @@ defmodule Swolen.Commands.DispatchTest do
     {action, response} = Dispatch.handle("fire ze missiles", "france")
 
     assert action == :reply
-    assert response == ~s(🤔 WHAT DO YOU MEAN "fire ze missiles"!?)
+    assert response == [~s(🤔 WHAT DO YOU MEAN "fire ze missiles"!?)]
   end
 
   test "handle 'don' command" do

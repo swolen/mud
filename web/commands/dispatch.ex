@@ -12,6 +12,6 @@ defmodule Swolen.Commands.Dispatch do
   end
 
   def handle(command, _user) do
-    {:reply, ~s(🤔 WHAT DO YOU MEAN "#{command}"!?)}
+    {:reply, [~s(🤔 WHAT DO YOU MEAN "#{command}"!?)]}
   end
 end

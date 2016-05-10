@@ -16,7 +16,7 @@ defmodule Swolen.RoomChannel do
   def handle_in("new_msg", %{"body" => "/" <> command}, socket) do
     case CommandDispatch.handle(command, socket.assigns.username) do
       {:reply, messages} ->
-        {:reply, {:ok, %{from: "😗", messages: List.wrap(messages)}}, socket}
+        {:reply, {:ok, %{from: "😗", messages: messages}}, socket}
       {:broadcast, message} ->
         broadcast!(socket, "new_msg", %{from: "🌎", body: message})
         {:noreply, socket}
