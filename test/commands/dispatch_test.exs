@@ -17,4 +17,16 @@ defmodule Swolen.Commands.DispatchTest do
     assert response == "boss has donned a(n) chicken suit"
     assert Swolen.UserState.get("boss") == "chicken suit"
   end
+
+  test "handle 'look around' command" do
+    Swolen.UserState.set("don quixote", "windmill")
+    Swolen.UserState.set("superman", "leotard")
+    {action, response} = Dispatch.handle("look_around", "doesn't matter")
+
+    assert action == :reply
+    assert response == [
+      "don quixote is looking swole in windmill",
+      "superman is looking swole in leotard",
+    ]
+  end
 end
