@@ -3,6 +3,13 @@ defmodule Swolen.Commands.Dispatch do
     messages = Enum.map Swolen.UserState.all, fn {user, item} ->
       "#{user} is looking swole in #{item}"
     end
+
+    messages = if Enum.empty?(messages) do
+      ["No one is swole yet."]
+    else
+      messages
+    end
+
     {:reply, messages}
   end
 
