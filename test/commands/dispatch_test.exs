@@ -9,4 +9,12 @@ defmodule Swolen.Commands.DispatchTest do
     assert action == :reply
     assert response == ~s(🤔 WHAT DO YOU MEAN "fire ze missiles"!?)
   end
+
+  test "handle 'don' command" do
+    {action, response} = Dispatch.handle("don chicken suit", "boss")
+
+    assert action == :broadcast
+    assert response == "boss has donned a(n) chicken suit"
+    assert Swolen.UserState.get("boss") == "chicken suit"
+  end
 end
