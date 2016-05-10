@@ -18,12 +18,10 @@ chat.onSubmit( () => {
   )
 })
 
-channel.on("new_msg", payload => {
-  chat.addMessage(payload.from, payload.body)
-})
+channel.on("new_msg", payload => chat.addMessage(payload.from, payload.body))
 
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive("ok", resp => console.log("Joined successfully", resp))
+  .receive("error", resp => console.log("Unable to join", resp))
 
 export default socket
